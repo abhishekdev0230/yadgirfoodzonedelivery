@@ -20,6 +20,7 @@ class CustomTextFieldWidget extends StatefulWidget {
   final Function? onSubmit;
   final bool isEnabled;
   final int maxLines;
+  final int? maxLength;
   final TextCapitalization capitalization;
   final String? prefixImage;
   final IconData? prefixIcon;
@@ -50,6 +51,7 @@ class CustomTextFieldWidget extends StatefulWidget {
     this.inputType = TextInputType.text,
     this.inputAction = TextInputAction.next,
     this.maxLines = 1,
+    this.maxLength,
     this.onSubmit,
     this.onChanged,
     this.prefixImage,
@@ -98,8 +100,10 @@ class CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
       SizedBox(height: widget.showTitle ? ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeDefault : Dimensions.paddingSizeExtraSmall : 0),
 
       TextField(
+        maxLength:  widget.maxLength,
         onTap: onFocusChanged,
         maxLines: widget.maxLines,
+
         controller: widget.controller,
         focusNode: widget.focusNode,
         textAlign: widget.textAlign,
@@ -131,6 +135,7 @@ class CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
           fillColor: Theme.of(context).cardColor,
           hintStyle: robotoRegular.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).hintColor.withValues(alpha: 0.7)),
           filled: true,
+          counterText: '',
           labelStyle : widget.showLabelText ? robotoRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor) : null,
           label: widget.showLabelText ? Text.rich(TextSpan(children: [
             TextSpan(text: widget.labelText ?? '', style: robotoRegular.copyWith(

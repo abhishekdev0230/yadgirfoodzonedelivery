@@ -59,6 +59,7 @@ class SignInViewScreen extends StatelessWidget {
 
                       CustomTextFieldWidget(
                         hintText: 'xxx-xxx-xxxxx'.tr,
+                        maxLength: 10,
                         showLabelText: false,
                         controller: _phoneController,
                         focusNode: _phoneFocus,
