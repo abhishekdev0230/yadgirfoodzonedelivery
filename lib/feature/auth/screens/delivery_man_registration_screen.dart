@@ -171,7 +171,7 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
 
             if(authController.vehicles != null){
               for(int index=0; index<authController.vehicles!.length; index++) {
-                vehicleList.add(DropdownItem<int>(value: index + 1, child: Padding(
+                vehicleList.add(DropdownItem<int>(value: index, child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text('${authController.vehicles![index].type}'),
                 )));
@@ -467,10 +467,18 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
                               items: vehicleList,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                                // child: Text(
+                                //   authController.vehicleIndex == 0 ? 'select_vehicle'.tr : authController.vehicles![authController.vehicleIndex!].type!.tr,
+                                //   style: robotoRegular.copyWith(color: authController.vehicleIndex == 0 ? Theme.of(context).hintColor : Theme.of(context).textTheme.bodyLarge!.color),
+                                // ),
                                 child: Text(
-                                  authController.vehicleIndex == 0 ? 'select_vehicle'.tr : authController.vehicles![authController.vehicleIndex!].type!.tr,
-                                  style: robotoRegular.copyWith(color: authController.vehicleIndex == 0 ? Theme.of(context).hintColor : Theme.of(context).textTheme.bodyLarge!.color),
+                                  authController.vehicleIndex == 0
+                                      ? 'select_vehicle'.tr
+                                      : authController.vehicles![authController.vehicleIndex! - 1].type!.tr,
                                 ),
+
+
+
                               ),
                             ),
                           ) : const CircularProgressIndicator(),
@@ -787,9 +795,10 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
     } else {
       if(authController.dmTypeIndex == -1) {
         showCustomSnackBar('please_select_delivery_type'.tr);
-      }else if(authController.vehicleIndex!-1 == -1) {
+      }else if(authController.vehicleIndex == -1) {
         showCustomSnackBar('please_select_vehicle_for_the_deliveryman'.tr);
-      }else if(identityNumber.isEmpty) {
+      }
+      else if(identityNumber.isEmpty) {
         showCustomSnackBar('enter_delivery_man_identity_number'.tr);
       }else if(authController.pickedIdentities.isEmpty) {
         showCustomSnackBar('please_add_your_identity_image'.tr);
@@ -803,7 +812,7 @@ class _DeliveryManRegistrationScreenState extends State<DeliveryManRegistrationS
           fName: fName, lName: lName, password: password, phone: numberWithCountryCode, email: email,
           identityNumber: identityNumber, identityType: authController.identityTypeList[authController.identityTypeIndex],
           earning: authController.dmTypeIndex == 0 ? '1' : '0', zoneId: addressController.zoneList![addressController.selectedZoneIndex!].id.toString(),
-          vehicleId: authController.vehicles![authController.vehicleIndex! - 1].id.toString(),
+          vehicleId: authController.vehicles![authController.vehicleIndex! - 0].id.toString(),
         ).toJson());
 
         data.addAll({
